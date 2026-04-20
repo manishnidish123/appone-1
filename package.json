@@ -1,0 +1,31 @@
+{
+  "name": "appone",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "worker:appone-standalone": "node src/workers/apponePollStandalone.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hubspot/api-client": "^7.1.2",
+    "@joi/date": "^2.1.0",
+    "@sentry/node": "^6.17.4",
+    "axios": "^0.24.0",
+    "axios-time": "^1.0.0",
+    "bluebird": "^3.7.2",
+    "bull": "^4.1.1",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "fast-xml-parser": "^4.0.0-beta.2",
+    "html-escaper": "^3.0.3",
+    "joi": "^17.6.0",
+    "lodash.get": "^4.4.2",
+    "moment": "^2.29.4",
+    "mongoose": "^6.13.9",
+    "winston": "^3.3.3"
+  }
+}

@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Revised by Param on 2/14/2019 -->
+<AppOneApplication>
+
+  <!-- This section is used for the remote party/sender credentials for authentication purposes as well as some metadata to identify the record  -->
+  <Sender>
+    <!-- This field is used to identify the sender's ID for this customer/application record -->
+    <RecordID><%= truncate(data.recordId ? data.recordId : (env.APPONE_RECORD_ID || 'TEST01'), 20) %></RecordID>
+    <OriginatingSystem><%= truncate(data.originatingSystem ? data.originatingSystem : (env.APPONE_ORIGINATING_SYSTEM || 'HubspotXpress'), 50) %></OriginatingSystem>
+  </Sender>
+
+  <!-- This section is used to identify who the dealer is -->
+  <Dealer>
+    <!-- This is AppOne's ID for the dealer. If this ID is present (> 0), system will always attempt to match the dealer based on the AppOneID -->
+    <AppOneID><%= env.APPONE_DEALERID %></AppOneID>
+    <Type><%= data.dealerType ? data.dealerType : (env.APPONE_DEALER_TYPE || 'Recreational') %></Type>
+    <!-- Added by Param on 6/5/2012 - Name of Sales Person -->
+    <SalesPersonName><%= truncate(data.salesPersonName ?  data.salesPersonName: "Unknown", 50) %></SalesPersonName>
+    <!-- Added by Param on 6/5/2012 - Name of F&I Manager -->
+    <FIPersonName><%= truncate(data.fiPersonName ? data.fiPersonName : '', 50) %></FIPersonName>
+  </Dealer>
+
+  <JointCreditAcknowledgment><%= data.isJointApplication ? 1 : 0 %></JointCreditAcknowledgment>
+
+  <!-- This section contains the borrowers -->
+  <!-- AppOne currently supports a maximum of up to 2 borrowers only -->
+  <Borrowers>
+  <% 
+    function formatDob(d) {
+      if (!d) return '';
+      if (d.indexOf('/') !== -1) {
+        const parts = d.split('/');
+        if (parts.length === 3) {
+          const mm = parts[0].padStart(2, '0');
+          const dd = parts[1].padStart(2, '0');
+          const yyyy = parts[2];
+          return `${yyyy}-${mm}-${dd}`;
+        }
+      }
+      return d;
+    }
+
+    function normalizeAddressStatus(status) {
+      if (!status) return '';
+      const normalized = String(status).trim().toUpperCase().replace(/\s+/g, '');
+      if (normalized === 'OWN') return 'OWNOUTRIGHT';
+      if (normalized === 'WITHFRIEND') return 'WITHFRIENDS';
+      return normalized;
+    }
+
+    function normalizeOtherIncomeSource(source) {
+      if (!source) return '';
+      const normalized = String(source).trim();
+      const upper = normalized.toUpperCase();
+      const map = {
+        'AID FOR DEPENDENT CHILDREN': 'Aid for Dependent Children',
+        'CHILD SUPPORT': 'Child Support',
+        'COST OF LIVING ALLOWANCE (COLA)': 'Cost of Living Allowance (COLA)',
+        'DISABILITY': 'Disability',
+        'FAMILY SUBSISTENCE SUPPLEMENTAL ALLOWANCE (FSSA)': 'Family Subsistence Supplemental Allowance (FSSA)',
+        'HOUSING ALLOWANCES': 'Housing Allowances',
+        'MILITARY BASIC ALLOWANCE FOR SUBSISTENCE (BAS)': 'Military Basic Allowance for Subsistence (BAS)',
+        'MUNICIPAL BOND INTEREST': 'Municipal Bond Interest',
+        'OTHER NON-TAXABLE SOURCES OF INCOME': 'Other Non-Taxable Sources of Income',
+        'PUBLIC ASSISTANCE': 'Public Assistance',
+        'RAILROAD PENSION': 'Railroad Pension',
+        'SOCIAL SECURITY BENEFITS': 'Social Security Benefits',
+        "WORKMAN'S COMPENSATION": "Workman's Compensation",
+        'OTHER': 'Other',
+        'UNKNOWN': 'UNKNOWN',
+      };
+      return map[upper] || normalized;
+    }
+
+    function normalizeEmploymentStatus(status) {
+      if (!status) return '';
+      const normalized = String(status).trim().toUpperCase();
+      const cleaned = normalized.replace(/[^A-Z]/g, '');
+      const map = {
+        EMPLOYED: 'EMPLOYED',
+        SELFEMPLOYED: 'SELFEMPLOYED',
+        TEMPSTAFFINGAGENCY: 'TEMPSTAFFINGAGENCY',
+        STUDENT: 'STUDENT',
+        RETIRED: 'RETIRED',
+        MILITARY: 'MILITARY',
+        HOMEMAKER: 'HOMEMAKER',
+        UNEMPLOYED: 'UNEMPLOYED',
+        UNKNOWN: 'UNKNOWN',
+      };
+      return map[cleaned] || cleaned || '';
+    }
+
+    function clampUByte(value) {
+      if (value === null || value === undefined || value === '') return '';
+      const num = Number(value);
+      if (Number.isNaN(num)) return '';
+      if (num < 0) return 0;
+      if (num > 255) return 255;
+      return Math.trunc(num);
+    }
+
+    function truncate(value, max) {
+      if (value === null || value === undefined) return '';
+      const str = String(value);
+      return str.length > max ? str.slice(0, max) : str;
+    }
+
+    function deriveCollateralAge(collateral) {
+      if (!collateral || !collateral.data) return '';
+      const raw = collateral.data.type || collateral.data.age || '';
+      const upper = raw ? String(raw).trim().toUpperCase() : '';
+      const year = Number(collateral.data.year);
+      const currentYear = new Date().getFullYear();
+      if (upper === 'NEW' && Number.isFinite(year) && year < currentYear) {
+        return 'USED';
+      }
+      if (upper === 'USED' || upper === 'DEMO' || upper === 'NEW') {
+        return upper;
+      }
+      if (Number.isFinite(year)) {
+        return year >= currentYear ? 'NEW' : 'USED';
+      }
+      return '';
+    }
+
+    function isTruthyEnv(value) {
+      if (value === null || value === undefined) return false;
+      const normalized = String(value).trim().toLowerCase();
+      return normalized === '1' || normalized === 'true' || normalized === 'yes';
+    }
+  %>
+  <% for(var i=0; i<data.borrowers.length; i++) {  let borrower = data.borrowers[i]; %>
+    <!-- Primary Borrower -->
+    <Borrower>
+      <!-- This field indicates the order of the borrowers - whether primary, secondary etc. -->
+      <NumOrder><%= i+1 %></NumOrder>
+      <Type>INDIVIDUAL</Type>
+      <FirstName><%= truncate(borrower.firstName, 20) %></FirstName>
+      <MiddleName><%= truncate(borrower.middleName, 20) %></MiddleName>
+      <LastName><%= truncate(borrower.lastName, 20) %></LastName>
+      <Suffix><%= borrower.suffix || '' %></Suffix>
+      <SSN><%= borrower.ssn %></SSN>
+      <DOB><%= formatDob(borrower.dateOfBirth) %></DOB>
+      <HomePhone><%= borrower.homePhone %></HomePhone>
+      <MobilePhone><%= borrower.cellPhone || '' %></MobilePhone>
+      <DLNo><%= truncate(borrower.driverLicenceNumber, 30) %></DLNo>
+      <DLState><%= borrower.state %></DLState>
+      <Email><%= truncate(borrower.email, 100) %></Email>
+
+      <!-- This section contains the current address and previous address if applicable -->
+      <Addresses>
+
+        <!-- Current/Physical Address -->
+        <Address>
+          <IsCurrent>true</IsCurrent>
+          <IsMailing><%= borrower.currentResidence.isMailingAddressDifferent ? false : true %></IsMailing>
+          <StreetNo><%= truncate(borrower.currentResidence.street, 20) %></StreetNo>
+          <StreetName><%= truncate(borrower.currentResidence.streetAddress, 100) %></StreetName>
+          <AptNo></AptNo>
+          <City><%= truncate(borrower.currentResidence.city, 50) %></City>
+          <State><%= borrower.currentResidence.state %></State>
+          <ZipCode><%= borrower.currentResidence.zipcode %></ZipCode>
+          <Status><%= normalizeAddressStatus(borrower.currentResidence.status) %></Status>
+          <HowLongYears><%= clampUByte(borrower.currentResidence.years) %></HowLongYears>
+          <HowLongMonths><%= clampUByte(borrower.currentResidence.months) %></HowLongMonths>
+        </Address>
+
+        <!-- Mailing Address -->
+        <% if(borrower.currentResidence.isMailingAddressDifferent) {  %>
+        <Address>
+          <IsCurrent>true</IsCurrent>
+          <IsMailing>true</IsMailing>
+          <StreetName><%= truncate(borrower.currentResidence.mailingAddress.address, 100) %></StreetName>
+          <City><%= truncate(borrower.currentResidence.mailingAddress.city, 50) %></City>
+          <State><%= borrower.currentResidence.mailingAddress.state %></State>
+          <ZipCode><%= borrower.currentResidence.mailingAddress.zipcode %></ZipCode>
+        </Address>
+        <% } %>
+
+        <!-- Previous Address -->
+        <% if(borrower.previousResidence) { %>
+        <Address>
+          <IsCurrent>false</IsCurrent>
+          <IsMailing>false</IsMailing>
+          <StreetNo><%= truncate(borrower.previousResidence.address, 20) %></StreetNo>
+          <StreetName><%= truncate(borrower.previousResidence.address2, 100) %></StreetName>
+          <AptNo></AptNo>
+          <City><%= truncate(borrower.previousResidence.city, 50) %></City>
+          <State><%= borrower.previousResidence.state %></State>
+          <ZipCode><%= borrower.previousResidence.zipcode %></ZipCode>
+          <HowLongYears><%= clampUByte(borrower.previousResidence.years) %></HowLongYears>
+          <HowLongMonths><%= clampUByte(borrower.previousResidence.months) %></HowLongMonths>
+        </Address>
+        <% } %>
+
+      </Addresses>
+
+      <!-- This section contains the current and previous employment information if applicable -->
+      <EmploymentInfo>
+
+        <!-- Current Primary Employment -->
+        <Employment>
+          <IsCurrent>true</IsCurrent>
+          <NumOrder>1</NumOrder>
+          <Status><%= normalizeEmploymentStatus(borrower.currentEmployment.status) %></Status>
+          <Occupation><%= truncate(borrower.currentEmployment.occupation, 50) %></Occupation>
+          <EmployerName><%= truncate(borrower.currentEmployment.employerName, 50) %></EmployerName>
+          <City><%= truncate(borrower.currentEmployment.city, 50) %></City>
+          <State><%= borrower.currentEmployment.state %></State>
+          <ZipCode><%= borrower.currentEmployment.zipcode %></ZipCode>
+          <GrossSalary><%= borrower.currentEmployment.grossSalary %></GrossSalary>
+          <GrossSalaryType><%= borrower.currentEmployment.grossSalaryType %></GrossSalaryType>
+          <HowLongYears><%= clampUByte(borrower.currentEmployment.years) %></HowLongYears>
+          <HowLongMonths><%= clampUByte(borrower.currentEmployment.months) %></HowLongMonths>
+        </Employment>
+        <% if(borrower.currentEmployment.hasSecondJob) { %>
+        <!-- Current Secondary Employment (if applicable) -->
+        <Employment>
+          <IsCurrent>true</IsCurrent>
+          <NumOrder>2</NumOrder>
+          <Status>EMPLOYED</Status>
+          <Occupation><%= truncate(borrower.secondEmployment.occupation, 50) %></Occupation>
+          <EmployerName><%= truncate(borrower.secondEmployment.employerName, 50) %></EmployerName>
+          <Address><%= truncate(borrower.secondEmployment.address, 100) %></Address>
+          <City><%= truncate(borrower.secondEmployment.city, 50) %></City>
+          <State><%= borrower.secondEmployment.state %></State>
+          <ZipCode><%= borrower.secondEmployment.zipcode %></ZipCode>
+          <GrossSalary><%= borrower.secondEmployment.grossSalary %></GrossSalary>
+          <GrossSalaryType><%= borrower.secondEmployment.grossSalaryType %></GrossSalaryType>
+          <WorkPhone><%= borrower.secondEmployment.workPhone %></WorkPhone>
+          <HowLongYears><%= clampUByte(borrower.secondEmployment.years) %></HowLongYears>
+          <HowLongMonths><%= clampUByte(borrower.secondEmployment.months) %></HowLongMonths>
+        </Employment>
+        <% } %>
+        <!-- Previous Employment (if applicable) -->
+        <Employment>
+          <IsCurrent>false</IsCurrent>
+          <NumOrder>1</NumOrder>
+          <Status><%= normalizeEmploymentStatus(borrower.previousEmployment.status) %></Status>
+          <Occupation><%= truncate(borrower.previousEmployment.occupation, 50) %></Occupation>
+          <EmployerName><%= truncate(borrower.previousEmployment.employerName, 50) %></EmployerName>
+          <City><%= truncate(borrower.previousEmployment.city, 50) %></City>
+          <State><%= borrower.previousEmployment.state %></State>
+          <ZipCode><%= borrower.previousEmployment.zipcode %></ZipCode>
+          <GrossSalary><%= borrower.previousEmployment.grossSalary %></GrossSalary>
+          <GrossSalaryType><%= borrower.previousEmployment.grossSalaryType %></GrossSalaryType>
+          <HowLongYears><%= clampUByte(borrower.previousEmployment.years) %></HowLongYears>
+          <HowLongMonths><%= clampUByte(borrower.previousEmployment.months) %></HowLongMonths>
+        </Employment>
+
+      </EmploymentInfo>
+      <% if(borrower.currentEmployment.hasOtherIncome) { %>
+      <!-- This section contains other income (if applicable) -->
+      <OtherIncome>
+        <Amount><%= borrower.otherIncome.grossSalary %></Amount>
+        <AmountType><%= borrower.otherIncome.grossSalaryType %></AmountType>
+        <Source><%= normalizeOtherIncomeSource(borrower.otherIncome.source) %></Source>
+      </OtherIncome>
+      <% } %>
+    </Borrower>
+  <% } %>
+  </Borrowers>
+  <% if(data.hasCollateralInformation) { %>
+  <!-- This section contains a description of the collateral -->
+  <Collaterals>
+    <% 
+      const collateralMinimal = isTruthyEnv(env.APPONE_COLLATERAL_MINIMAL);
+      const marineMinimal = isTruthyEnv(env.APPONE_MARINE_MINIMAL) || collateralMinimal;
+      if(data.collateral.type === 'MARINE') { 
+      const boat = data.collateral.data.boatInfo || {};
+      const motors = Array.isArray(data.collateral.data.motors) ? data.collateral.data.motors : [];
+      const trailers = Array.isArray(data.collateral.data.trailers) ? data.collateral.data.trailers : [];
+    %>
+    <Collateral>
+      <Type>MARINE</Type>
+      <Age><%= deriveCollateralAge({ data: boat }) %></Age>
+      <Serial><%= truncate(boat.serial || '', 25) %></Serial>
+      <Year><%= boat.year || '' %></Year>
+      <Make><%= truncate(boat.make || '', 50) %></Make>
+      <Model><%= truncate(boat.model || '', 50) %></Model>
+      <Style></Style>
+      <Color></Color>
+      <Mileage></Mileage>
+      <% if(!marineMinimal) { %>
+      <Length><%= boat.length || '' %></Length>
+      <% } %>
+      <SellingPrice><%= data.collateral.data.sellingPrice || '' %></SellingPrice>
+      <IsCPO>false</IsCPO>
+      <% if(!marineMinimal) { %>
+      <Motors>
+        <% motors.forEach(function(motor, idx) { %>
+        <Motor>
+          <NumOrder><%= idx + 1 %></NumOrder>
+          <Age><%= motor.type ? String(motor.type).trim().toUpperCase() : '' %></Age>
+          <Serial><%= truncate(motor.serial || '', 25) %></Serial>
+          <Year><%= motor.year || '' %></Year>
+          <Make><%= truncate(motor.make || '', 50) %></Make>
+          <Model><%= truncate(motor.model || '', 50) %></Model>
+          <!-- HorsePower and FuelType are not accepted for Motor in v3.0 schema -->
+          <Type><%= motor.motorType || '' %></Type>
+        </Motor>
+        <% }) %>
+      </Motors>
+      <Trailer>
+        <% if (trailers[0]) { const trailer = trailers[0]; %>
+        <Age><%= trailer.type ? String(trailer.type).trim().toUpperCase() : '' %></Age>
+        <Serial><%= truncate(trailer.serial || '', 25) %></Serial>
+        <Year><%= trailer.year || '' %></Year>
+        <Make><%= truncate(trailer.make || '', 50) %></Make>
+        <Model><%= truncate(trailer.model || '', 50) %></Model>
+        <Axles><%= trailer.axles ?? 0 %></Axles>
+        <% } %>
+      </Trailer>
+      <% } %>
+    </Collateral>
+    <% } else { %>
+    <Collateral>
+      <Type><%= data.collateral.type === 'AUTO' ? 'AUTOMOBILE' : data.collateral.type %></Type>
+      <Age><%= deriveCollateralAge(data.collateral) %></Age>
+      <Serial><%= truncate(data.collateral.data.serialNumber || data.collateral.data.serial || '', 25) %></Serial>
+      <Year><%= data.collateral.data.year %></Year>
+      <Make><%= truncate(data.collateral.data.make, 50) %></Make>
+      <Model><%= truncate(data.collateral.data.model, 50) %></Model>
+      <% if(!collateralMinimal) { %>
+      <Style><%= truncate(data.collateral.data.bodyStyle || '', 30) %></Style>
+      <Color><%= truncate(data.collateral.data.color, 20) %></Color>
+      <Mileage><%= data.collateral.data.mileage %></Mileage>
+      <SellingPrice><%= data.collateral.data.sellingPrice || '' %></SellingPrice>
+      <% } %>
+      <IsCPO>false</IsCPO>
+    </Collateral>
+    <% } %>
+  </Collaterals>
+  <% } %>
+  <!-- This section contains the deal structure terms of the loan -->
+  <Structure>
+    <CashDown><%= data.paymentInformation?.downPayment ?? 0 %></CashDown>
+    <TotalTaxes><%= data.structure?.totalTaxes ?? 0 %></TotalTaxes>
+    <TotalFees><%= data.structure?.totalFees ?? 0 %></TotalFees>
+    <TotalProducts><%= data.structure?.totalProducts ?? 0 %></TotalProducts>
+    <TotalAmountFinanced><%= data.structure?.totalAmountFinanced ?? 0 %></TotalAmountFinanced>
+    <Term><%= data.structure?.term ?? 0 %></Term>
+    <Rate><%= data.structure?.rate ?? 0 %></Rate>
+    <DaysToFirstPayment><%= data.structure?.daysToFirstPayment ?? 0 %></DaysToFirstPayment>
+  </Structure>
+
+  <!-- This section contains any Trade-In information if applicable -->
+  <!-- AppOne only supports up to 2 trade-ins at this time -->
+  <TradeInInfo>
+  <% if(data.hasTradeIn) { %>
+    <TradeIn>
+      <NumOrder>1</NumOrder>
+      <Serial><%= truncate(data.tradein.serial, 20) %></Serial>
+      <Year><%= data.tradein.year %></Year>
+      <Make><%= truncate(data.tradein.make, 50) %></Make>
+      <Model><%= truncate(data.tradein.model, 50) %></Model>
+      <Style></Style>
+      <Mileage><%= data.tradein.mileage %></Mileage>
+      <TradeInAllowance><%= data.tradein.tradeInAllowance %></TradeInAllowance>
+      <!-- <TradeInPayoff><%= data.tradein.serial %></TradeInPayoff> -->
+      <LienHolder><%= truncate(data.tradein.lienHolder, 50) %></LienHolder>
+      <!-- <LienHolderPhone><%= data.tradein.serial %></LienHolderPhone>
+      <LienHolderAccountNum><%= data.tradein.serial %></LienHolderAccountNum> -->
+    </TradeIn>
+  <% } %>
+  </TradeInInfo>
+
+</AppOneApplication>

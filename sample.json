@@ -1,0 +1,441 @@
+{
+  "AppOneApplicationResponse": {
+    "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+    "Borrowers": {
+      "#text": "&#xD;&#xD;",
+      "Borrower": {
+        "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+        "Addresses": {
+          "#text": "&#xD;&#xD;&#xD;",
+          "Address": [
+            {
+              "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+              "AptNo": "MDKL",
+              "City": "NORTH CHATHAML",
+              "County": "COLUMBIA",
+              "HowLongMonths": 0,
+              "HowLongYears": 1,
+              "IsCurrent": true,
+              "IsMailing": true,
+              "LandLordMortgageCo": "",
+              "MonthlyPayment": 1256,
+              "State": "NY",
+              "Status": "OWN",
+              "StreetName": "STREET",
+              "StreetNo": "XYZ",
+              "ZipCode": 12132
+            },
+            {
+              "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+              "AptNo": "",
+              "City": "CAL",
+              "County": "CALIDORNAI",
+              "HowLongMonths": 0,
+              "HowLongYears": 3,
+              "IsCurrent": false,
+              "IsMailing": false,
+              "LandLordMortgageCo": "",
+              "MonthlyPayment": 0,
+              "State": "AE",
+              "Status": "OWN",
+              "StreetName": "ADDRES",
+              "StreetNo": "",
+              "ZipCode": 12312
+            }
+          ]
+        },
+        "CreditBureaus": {
+          "#text": "&#xD;&#xD;&#xD;&#xD;",
+          "CreditBureau": [
+            {
+              "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+              "Score": -1,
+              "ScoreRangeHigh": 0,
+              "ScoreRangeLow": 0,
+              "ScoreRankPercent": 0,
+              "Source": "EQUIFAX",
+              "XMLReport": ""
+            },
+            {
+              "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+              "Score": 0,
+              "ScoreRangeHigh": 0,
+              "ScoreRangeLow": 0,
+              "ScoreRankPercent": 0,
+              "Source": "EXPERIAN",
+              "XMLReport": ""
+            },
+            {
+              "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+              "Score": 0,
+              "ScoreRangeHigh": 0,
+              "ScoreRangeLow": 0,
+              "ScoreRankPercent": 0,
+              "Source": "TRANSUNION",
+              "XMLReport": ""
+            }
+          ]
+        },
+        "DLNo": "BHUJ",
+        "DLState": "AL",
+        "DOB": "1978-01-11",
+        "Email": "SHREY@SHREY.WORK",
+        "EmploymentInfo": {
+          "#text": "&#xD;&#xD;",
+          "Employment": {
+            "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+            "Address": "NJCKANJNJ",
+            "City": "CORNWALLVILLEJKNWJ",
+            "EmployerName": "MDKJQ",
+            "GrossSalary": 23242,
+            "GrossSalaryType": "ANNUALLY",
+            "HowLongMonths": 0,
+            "HowLongYears": 15,
+            "IsCurrent": true,
+            "NumOrder": 1,
+            "Occupation": "DAKL",
+            "State": "NY",
+            "Status": "MILITARY",
+            "WorkPhone": "121-324-3545",
+            "ZipCode": 12418
+          }
+        },
+        "FirstName": "TEST",
+        "HomePhone": "123-456-6788",
+        "LastName": "TEST 2",
+        "MiddleName": "MIDDLE",
+        "MobilePhone": "234-567-8909",
+        "NumOrder": 1,
+        "OtherIncome": {
+          "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;",
+          "Amount": 0,
+          "AmountType": "MONTHLY",
+          "Description": "",
+          "Source": "UNKNOWN"
+        },
+        "References": "",
+        "RelationshipDescription": "",
+        "RelationshipToPrimaryBorrower": "UNKNOWN",
+        "SSN": "121-31-2324",
+        "Type": "INDIVIDUAL"
+      }
+    },
+    "Collateral": {
+      "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+      "Age": "NEW",
+      "Color": "BLACK",
+      "CostPrice": 12,
+      "FuelType": "GAS",
+      "Horsepower": 0,
+      "IsCPO": false,
+      "Length": 12,
+      "MSRP": 12,
+      "Make": "MAKE",
+      "Mileage": 12,
+      "Model": "SOMW MODELA",
+      "Motors": {
+        "#text": "&#xD;&#xD;&#xD;",
+        "Motor": [
+          {
+            "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+            "Age": "NEW",
+            "CostPrice": 15,
+            "FuelType": "GAS",
+            "HorsePower": 120,
+            "MSRP": 67,
+            "Make": "NEW GEN",
+            "Model": "HIGH TECH",
+            "NumOrder": 1,
+            "SellingPrice": 12,
+            "Serial": 1234,
+            "Type": "INBOARD",
+            "Year": 2018
+          },
+          {
+            "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+            "Age": "USED",
+            "CostPrice": 123,
+            "FuelType": "GASELECTRIC",
+            "HorsePower": 67,
+            "MSRP": 43,
+            "Make": "NEW GET",
+            "Model": "LOW TECH",
+            "NumOrder": 2,
+            "SellingPrice": 434,
+            "Serial": 7543,
+            "Type": "INBOARD",
+            "Year": 2020
+          }
+        ]
+      },
+      "Options": "",
+      "RVClass": "CLASSA",
+      "SellingPrice": 1000,
+      "Serial": 132,
+      "StockNo": 3,
+      "Style": 12,
+      "Trailer": {
+        "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+        "Age": "USED",
+        "Axles": 0,
+        "CostPrice": 12,
+        "MSRP": 210,
+        "Make": "HIGH TECH NAME",
+        "Model": "MODEL",
+        "SellingPrice": 15,
+        "Serial": "",
+        "Year": 2019
+      },
+      "Type": "MARINE",
+      "Year": 1998
+    },
+    "Dead": false,
+    "Dealer": {
+      "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+      "Address1": "4110 Shipyard Blvd.",
+      "Address2": "",
+      "AppOneID": 1001753,
+      "City": "Wilmington",
+      "County": "",
+      "FIPersonName": "",
+      "Name": "HubSpot",
+      "Phone": "660-428-2422",
+      "SalesPersonName": "",
+      "SenderID": "",
+      "State": "NC",
+      "Type": "Recreational",
+      "ZipCode": 28403
+    },
+    "ID": 1246542,
+    "InsuranceInfo": {
+      "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;",
+      "Agent": "",
+      "Company": "",
+      "Deductible": 0,
+      "PolicyNumber": ""
+    },
+    "JointCreditAcknowledgment": false,
+    "Lenders": {
+      "#text": "&#xD;&#xD;&#xD;",
+      "Lender": [
+        {
+          "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+          "Amount": 0,
+          "BackEndAmount": 0,
+          "BuyRate": 0,
+          "BuyerName": "",
+          "BuyerPhone": "",
+          "CashDown": 0,
+          "Comments": {
+            "#text": "&#xD;&#xD;",
+            "Comment": {
+              "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;",
+              "IsSatisfied": false,
+              "Text": "Dealer ID (8767545) and Lender ID (322) Not Associated",
+              "Type": "Notes",
+              "User": ""
+            }
+          },
+          "ContractStatus": "NOTAPPLICABLE",
+          "ContractSubStatus": "NOTAPPLICABLE",
+          "Dead": false,
+          "Decision": "PENDING",
+          "FundedDateTime": "1900-01-01T00:00:00",
+          "GAP": 0,
+          "GrossFundedAmount": 0,
+          "LenderID": 10011,
+          "LenderName": "Stifel Bank",
+          "LienHolderAddress": {
+            "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+            "Address1": "8000 Maryland Ave",
+            "Address2": "Ste 100",
+            "City": "Clayton",
+            "Fax": "314-333-6369",
+            "Phone": "314-721-8003",
+            "State": "MO",
+            "ZipCode": 63105
+          },
+          "MaxRate": 0,
+          "NetFundedAmount": 0,
+          "Payment": 0,
+          "ProgramID": 10035,
+          "ProgramName": "Stifel Bank Recreational Program",
+          "RecvdDateTime": "1900-01-01T00:00:00",
+          "ReserveAmount": 0,
+          "Selected": false,
+          "SentDateTime": "2021-12-06T11:16:16.76",
+          "Term": 0,
+          "TransmissionStatus": "RETRY",
+          "TransmissionType": "ELECTRONIC",
+          "VSC": 0
+        },
+        {
+          "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+          "Amount": 0,
+          "BackEndAmount": 0,
+          "BuyRate": 0,
+          "BuyerName": "",
+          "BuyerPhone": "",
+          "CashDown": 0,
+          "Comments": {
+            "#text": "&#xD;&#xD;",
+            "Comment": {
+              "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;",
+              "IsSatisfied": false,
+              "Text": "Code: Client.logicError|Message: logicError|Detail: |Invalid dealer number 564635.000; Application not processed[1021].  is not a valid Aqua Finance Inc dealer. Contact Aqua Finance Inc credit department at 1-800-234-3663 . EXT. 6098 to resolve this issue.|&#xD;",
+              "Type": "Notes",
+              "User": ""
+            }
+          },
+          "ContractStatus": "NOTAPPLICABLE",
+          "ContractSubStatus": "NOTAPPLICABLE",
+          "Dead": false,
+          "Decision": "PENDING",
+          "FundedDateTime": "1900-01-01T00:00:00",
+          "GAP": 0,
+          "GrossFundedAmount": 0,
+          "LenderID": 4714,
+          "LenderName": "Aqua Finance, Inc.",
+          "LienHolderAddress": {
+            "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+            "Address1": "P.O. Box 844",
+            "Address2": "",
+            "City": "Wausau",
+            "Fax": "715-848-6220",
+            "Phone": "715-848-5425",
+            "State": "WI",
+            "ZipCode": "54402-0844"
+          },
+          "MaxRate": 0,
+          "NetFundedAmount": 0,
+          "Payment": 0,
+          "ProgramID": 10073,
+          "ProgramName": "AQUA Marine Program",
+          "RecvdDateTime": "1900-01-01T00:00:00",
+          "ReserveAmount": 0,
+          "Selected": false,
+          "SentDateTime": "2021-12-05T08:14:14.673",
+          "Term": 0,
+          "TransmissionStatus": "FAILED",
+          "TransmissionType": "ELECTRONIC",
+          "VSC": 0
+        }
+      ]
+    },
+    "Sender": {
+      "#text": "&#xD;&#xD;",
+      "RecordID": ""
+    },
+    "Status": "PENDING",
+    "Structure": {
+      "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+      "APR": 2,
+      "CashDown": 2,
+      "ContractDate": "2021-11-29",
+      "DaysToFirstPayment": 30,
+      "Fees": {
+        "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+        "Fee": [
+          {
+            "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;",
+            "Amount": 2,
+            "Code": "title",
+            "IsTaxed": false,
+            "Name": "Title Fee"
+          },
+          {
+            "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;",
+            "Amount": 2,
+            "Code": "license",
+            "IsTaxed": false,
+            "Name": "License Fee"
+          },
+          {
+            "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;",
+            "Amount": 2,
+            "Code": "registration",
+            "IsTaxed": false,
+            "Name": "Registration Fee"
+          },
+          {
+            "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;",
+            "Amount": 2,
+            "Code": "doc",
+            "IsTaxed": false,
+            "Name": "Documentation Fee"
+          },
+          {
+            "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;",
+            "Amount": 22,
+            "Code": "notary",
+            "IsTaxed": false,
+            "Name": "Notary Fee"
+          },
+          {
+            "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;",
+            "Amount": 2,
+            "Code": "ucc",
+            "IsTaxed": false,
+            "Name": "UCC Filing Fee"
+          },
+          {
+            "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;",
+            "Amount": 22,
+            "Code": "vsi",
+            "IsTaxed": false,
+            "Name": "Single Interest Insurance (VSI)"
+          }
+        ]
+      },
+      "FirstPaymentDate": "2021-12-29",
+      "LastPaymentDate": "2022-01-29",
+      "PaymentAmount": 769,
+      "Products": "",
+      "Rate": 2,
+      "Rebate": 2,
+      "RebateTaxCredit": false,
+      "SellingPrice": 1461,
+      "Taxes": {
+        "#text": "&#xD;&#xD;",
+        "Tax": {
+          "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+          "Amount": 43.17,
+          "Code": "state",
+          "FeeName": "",
+          "IsOverridden": false,
+          "ItemCode": "",
+          "ItemType": "Base",
+          "Name": "State Tax",
+          "Rate": 3
+        }
+      },
+      "Term": 2,
+      "TotalAmountFinanced": 1534.17,
+      "TotalFees": 54,
+      "TotalProducts": 0,
+      "TotalTaxes": 43.17,
+      "TradeInAllowance": 22,
+      "TradeInPayoff": 2,
+      "TradeInTaxCredit": true
+    },
+    "TradeInInfo": {
+      "#text": "&#xD;&#xD;",
+      "TradeIn": {
+        "#text": "&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;",
+        "LienHolder": "DWJK",
+        "LienHolderAccountNum": 12,
+        "LienHolderPhone": "121-328-4234",
+        "Make": "D3J",
+        "Mileage": 12,
+        "Model": "NXJKA",
+        "NumOrder": 1,
+        "Serial": 12345,
+        "Style": "",
+        "TradeInAllowance": 0,
+        "TradeInPayoff": 0,
+        "Year": 2012
+      }
+    },
+    "Version": 2.1
+  }
+}

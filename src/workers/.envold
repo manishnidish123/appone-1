@@ -1,0 +1,32 @@
+# Database
+DB_URL=mongodb+srv://khatri123:test123@cluster0.4k8y1kt.mongodb.net/?appName=Cluster0
+
+
+# Redis
+# REDIS_URI=redis://default:sSOb8bz98xrBEbb8elWXXEdyxBWjZOIh@redis-10406.c16.us-east-1-2.ec2.cloud.redislabs.com:10406
+REDIS_URI=redis://cache-db.appone.localdomain:6379
+REDIS_DISABLED=true
+CRON_EXPRESSION_HUBSPOT_PULL="0 5 * * *"
+CRON_EXPRESSION_APPONE_PULL="*/15 * * * *"
+HUBSPOT_KEY=pat-na1-77b23fcb-3438-4921-95de-eda497adaa39
+
+
+
+#APPONE_URL=https://demo.external.appone.net/connect/dms/AppOneConnect.svc/basic
+#APPONE_URL=https://gateway.appone.net/connect/dms/AppOneConnect.svc/basic
+
+SENTRY_DSN=https://32944b9c2f0945dea6fc91bc0f5fa4cf@o1136050.ingest.sentry.io/6188260
+
+
+APPONE_URL=https://gateway.appone.net/AppOneConnect
+APPONE_USERNAME=hubspotxpr
+APPONE_PASSWORD=7fsgdaIvPlYklnlcA6lbZK1/m2CWFXEQxmuHxl0ko/ALQFRMPjaJQIkgnHjVv+0V
+APPONE_API_KEY=7fsgdaIvPlYklnlcA6lbZK1/m2CWFXEQxmuHxl0ko/ALQFRMPjaJQIkgnHjVv+0V
+APPONE_DEALERID=43664          
+APPONE_ALLOWED_DEALERIDS=43664
+APPONE_MARINE_MINIMAL=false
+APPONE_COLLATERAL_MINIMAL=false
+APPONE_POLL_IGNORE_DEALERID=false
+APPONE_POLL_DEALERIDS=43664,47396,53011,46757,53933
+APPONE_POLL_LOOKBACK_DAYS=1
+APPONE_POLL_FORCE_LOOKBACK=false

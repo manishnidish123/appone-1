@@ -1,0 +1,53 @@
+version: "3.3"
+networks:
+ appone:
+   external: true
+
+services:
+ proxy-nginx:
+   deploy:
+     replicas: 1
+     update_config:
+       parallelism: 1
+       delay: 10s
+       failure_action: rollback
+     placement:
+       constraints:
+         - "node.role == manager"
+   image: 'registry.gitlab.com/alwayshired/training-app/alwayshired/nginx:master'
+   ports:
+     - "80:80"
+   dns:
+     - 127.0.0.11
+     - 8.8.8.8
+   logging:
+     driver: syslog
+     options:
+        syslog-address: "tcp://127.0.0.1:603"
+        syslog-facility: "local6"
+        tag: "docker-{{.Name}}/{{.ID}}"
+
+ web:
+   deploy:
+     replicas: 2
+     update_config:
+       parallelism: 1
+       delay: 10s
+       failure_action: rollback
+     placement:
+       constraints:
+         - "node.role == manager"
+   command: node src/api/api-server.js
+   env_file:
+     - ../.env
+   image: 'registry.gitlab.com/alwayshired/training-app/alwayshired/web:master'
+   dns:
+     - 127.0.0.11
+     - 8.8.8.8
+   working_dir: /app
+   logging:
+     driver: syslog
+     options:
+        syslog-address: "tcp://127.0.0.1:601"
+        syslog-facility: "local6"
+        tag: "docker-{{.Name}}/{{.ID}}"   

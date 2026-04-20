@@ -1,0 +1,74 @@
+version: '3.2'
+
+networks:
+  default:
+    external:
+      name: appone
+
+services:
+  poll-hubspot-worker:
+    image: node:16.13.0
+    working_dir: /app
+    restart: always
+    command: node src/jobs/pollHubspotJob.worker.js
+    env_file: ./.env
+    volumes:
+      - type: bind
+        source: ./
+        target: /app
+    logging:
+      driver: 'json-file'
+      options:
+        max-file: '5'
+        max-size: '100m'
+
+  poll-appone-worker:
+    image: node:16.13.0
+    working_dir: /app
+    restart: always
+    command: node src/jobs/pollApponeJob.worker.js
+    env_file: ./.env
+    volumes:
+      - type: bind
+        source: ./
+        target: /app
+    logging:
+      driver: 'json-file'
+      options:
+        max-file: '5'
+        max-size: '100m'
+
+  update-hubspot-worker:
+    image: node:16.13.0
+    working_dir: /app
+    command: node src/jobs/updateHubspotDealJob.worker.js
+    restart: always
+    env_file: ./.env
+    scale: 1
+    volumes:
+      - type: bind
+        source: ./
+        target: /app
+    logging:
+      driver: 'json-file'
+      options:
+        max-file: '5'
+        max-size: '500m'
+
+  web:
+    image: node:16.13.0
+    working_dir: /app
+    command: node src/api/api-server.js
+    restart: always
+    env_file: ./.env
+    ports:
+      - 80:80
+    volumes:
+      - type: bind
+        source: ./
+        target: /app
+    logging:
+      driver: 'json-file'
+      options:
+        max-file: '5'
+        max-size: '500m'

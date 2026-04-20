@@ -1,0 +1,55 @@
+version: '3.2'
+
+networks:
+  default:
+    external:
+      name: appone
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    logging:
+      driver: none
+    command: [--auth]
+    restart: always
+    volumes:
+      - ./docker/volumes/mongo:/data/db
+    networks:
+      - default
+
+  cache-db:
+    image: redis:latest
+    restart: always
+    ports:
+      - 6379:6379
+    command: redis-server /usr/local/etc/redis/redis.conf
+    logging:
+      driver: 'json-file'
+      options:
+        max-file: '5'
+        max-size: '10m'
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      default:
+        aliases:
+          - cache-db.appone.localdomain
+  init:
+    image: node:16.13.0
+    working_dir: /app
+    command: node src/index.js
+    env_file: ./.env
+    volumes:
+      - type: bind
+        source: ./
+        target: /app
+    logging:
+      driver: 'json-file'
+      options:
+        max-file: '5'
+        max-size: '10m'
+    depends_on:
+      - cache-db
+      - mongo
